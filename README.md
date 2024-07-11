@@ -55,7 +55,7 @@ Before you begin, ensure you have met the following requirements:
 2. **Open the website:**
     - Navigate to `http://localhost:3000` in your web browser.
 
-## Code Structure
+## File Structure
 
 - `app.js`: Main application file that sets up the server and routes
 - `public/`: Directory containing static files (HTML, CSS, JS)
