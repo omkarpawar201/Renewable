@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Welcome to Renewal</title>
+
+    <style>
+        .logo {
+            max-width: 300px; /* Adjust the size as needed */
+            margin-right: 10px;
+            /* padding-left: 500px; */
+        }
+
+        /* Custom CSS to adjust the padding for "Categories" section and sliding images section */
+        .custom-categories {
+            padding-left: 50px; /* Increase the left padding as needed */
+        }
+        
+        .custom-sliding-images {
+            padding-right: 50px; /* Increase the right padding as needed */
+        }
+
+        .navbar-nav .nav-item .nav-link-custom {
+            font-size: 22px; /* Increase the font size as needed */
+            padding: 10px 30px; /* Adjust padding to increase spacing */
+        }
+
+        /* Custom CSS for highlighting active link */
+        .navbar-nav .nav-item.active .nav-link-custom {
+            background-color: green;
+            color: white;
+        }
+
+        /* Custom CSS for dropdown animation */
+        .dropdown-menu.fadeInDown {
+            animation: fadeInDown 0.5s;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Style for category options */
+        .category-option {
+            color: #333; /* Text color */
+            text-decoration: none; /* Remove underlines from links */
+        }
+
+        .category-option:hover {
+            color: #007bff; /* Blue color on hover */
+        }
+
+        /* Center text in columns */
+        .options-padding {
+            padding-top: 100px;
+        }
+
+        .lowest-section{
+            background-color: #90ff2e;
+        }
+
+        .info-section {
+            padding: 50px;
+            background-color: #f9f9f9;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .data-field {
+            font-size: 18px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><img src="logo-removebg-preview.png" alt="Logo" class="logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width: 500px;">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <p>Hi, <span id="customerNamePlaceholder"></span></p>
+                <a class="nav-link nav-link-custom dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account
+                </a>
+                <div class="dropdown-menu dropdown-menu-right fadeInDown" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/myProfile">My Profile</a>
+                    <div class="dropdown-divider"></div> <!-- Add a divider here -->
+                    <a class="dropdown-item" href="login.html" target="_self">My Cart</a>
+                    <div class="dropdown-divider"></div> <!-- Add a divider here -->
+                    <a class="dropdown-item" href="login.html" target="_self">My Orders</a>
+                    <div class="dropdown-divider"></div> <!-- Add a divider here -->
+                    <a class="dropdown-item" href="login.html" target="_self">Logout</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link nav-link-custom" href="#">Cart</a>
+            </li> 
+        </ul>
+    </nav>
+
+    <section class="info-section">
+        <div class="container">
+            <h1 class="text-center">Welcome to the Renewal</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>First Name: </strong> <%= customer.firstname %>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Last Name: </strong> <%= customer.lastname %>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Phone Number: </strong> <%= customer.mobile %>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Gender: </strong> <%= customer.gender %>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Registration Type: </strong> <%= customer.registeras %>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Email: </strong> <%= customer.email %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Section with Different Background Color -->
+    <div class="lowest-section text-dark py-4">
+        <div class="row">
+            <div col-md-3>
+                <img src="logo-removebg-preview.png" alt="Your Image" style=" max-width: 350px; margin: 50px 50px;">
+                <!-- <p>This is a section with a different background color.</p> -->
+            </div>
+            <div col-md-3>
+                <h>Information</h>
+                <!-- <p>This is a section with a<br> different background color.</p> -->
+            </div>
+            <div col-md-3>
+                <h>My Account</h>
+                <!-- <img src="logo-removebg-preview.png" alt="Your Image" style=" max-width: 350px; margin: 50px 10px;"> -->
+                <!-- <p>This is a section with a different background color.</p> -->
+            </div>
+            <div col-md-3>
+                <h>Why Choose Us</h>
+                <!-- <img src="logo-removebg-preview.png" alt="Your Image" style=" max-width: 350px; margin: 50px 10px;"> -->
+                <!-- <p>This is a section with a different background color.</p> -->
+            </div>
+            <!-- <div col-md-5>
+                <img src="logo-removebg-preview.png" alt="Your Image" style=" max-width: 350px; margin: 50px 10px;">
+                <p>This is a section with a different background color.</p> -->
+            <!-- </div> -->
+        </div>
+    </div>
+</body>
+</html>

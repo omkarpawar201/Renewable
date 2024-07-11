@@ -1,0 +1,71 @@
+<!-- product_details.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (your existing meta tags and CSS links) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <!-- Add Bootstrap 5 CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add custom CSS for styling -->
+    <style>
+        /* Add your custom styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="product-container">
+                    <h2>Product Details</h2>
+                    <div id="product-details">
+                        <!-- Product details will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap 5 JS and other necessary scripts here -->
+
+    <script>
+        // Fetch product details using JavaScript and insert into the HTML
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch product details from the server using an API endpoint
+            // Replace '/api/product/:productId' with your actual API endpoint
+            const productId = 'your-product-id'; // Replace with the actual product ID
+            fetch(`/api/product/${productId}`)
+                .then(response => response.json())
+                .then(product => {
+                    // Construct HTML to display product details
+                    const productDetailsHtml = `
+                        <div class="row">
+                            <div class="col">
+                                <strong>Product Brand:</strong> ${product.productbrand}
+                            </div>
+                            <div class="col">
+                                <strong>Model Name:</strong> ${product.productmodel}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <strong>Price:</strong> ${product.price}
+                            </div>
+                            <div class="col">
+                                <strong>Category:</strong> ${product.category}
+                            </div>
+                        </div>
+                        <!-- Add more details as needed -->
+                    `;
+
+                    // Insert product details into the HTML
+                    document.getElementById("product-details").innerHTML = productDetailsHtml;
+                })
+                .catch(error => {
+                    console.error('Error fetching product details:', error);
+                });
+        });
+    </script>
+</body>
+</html>

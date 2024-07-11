@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders</title>
+  <!-- Add Bootstrap CDN link for styles -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">My Orders</h2>
+    <% if (placedOrders.length > 0) { %>
+        <% placedOrders.forEach(order => { %>
+            <!-- Display order details here -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Email: <%= order.email %></h5>
+                    <p class="card-text"><strong>Product ID:</strong> <%= order.productId %></p>
+                    <p class="card-text"><strong>Quantity:</strong> <%= order.quantity %></p>
+                    <p class="card-text"><strong>Order Date:</strong> <%= order.orderDate.toDateString() %></p>
+                    <p class="card-text"><strong>Order Time:</strong> <%= order.orderTime %></p>
+                    <p class="card-text"><strong>Status:</strong> <%= order.status || 'Pending' %></p>
+                </div>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p class="alert alert-info">No orders found.</p>
+    <% } %>
+    <a href="/" class="btn btn-primary">Go back to home</a>
+  </div>
+
+  <!-- Add Bootstrap JS and Popper.js CDN links if needed -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
+</body>
+</html>

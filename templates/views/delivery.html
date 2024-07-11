@@ -1,0 +1,90 @@
+<!-- templates/views/delivery.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Orders</title>
+  <!-- Include Bootstrap and EJS libraries -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/ejs@3.1.6/ejs.min.js"></script>
+</head>
+<body class="container mt-4">
+  <h1 class="text-center">Delivery Orders</h1>
+  <ul id="delivery-list" class="list-group"></ul>
+
+  <!-- Your JavaScript code to render the template and handle button clicks -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get the EJS template content
+      var template = document.getElementById("delivery-template").innerHTML;
+
+      // Fetch placedOrders data from the server
+      fetch("/delivery-data")
+        .then(response => response.json())
+        .then(data => {
+          // Render the template using EJS
+          var renderedHTML = ejs.render(template, { placedOrders: data });
+
+          // Append the rendered HTML to a container element on your page
+          document.getElementById("delivery-list").innerHTML = renderedHTML;
+
+          // Function to handle moving an order to the Completed_order database
+          function moveToCompleted(orderId, listItem) {
+            // Make an asynchronous request to the server to move the order
+            fetch("/move-to-completed", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ orderId }),
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+                // Remove the corresponding order element from the HTML
+                listItem.remove();
+              })
+              .catch(error => console.error("Error moving order to completed:", error));
+          }
+
+          // Attach the moveToCompleted function to each button click
+          document.querySelectorAll(".move-to-completed-button").forEach(button => {
+            button.addEventListener("click", function() {
+              var orderId = this.getAttribute("data-order-id");
+              var listItem = this.closest("li");
+              moveToCompleted(orderId, listItem);
+            });
+          });
+        })
+        .catch(error => console.error("Error fetching placed orders:", error));
+    });
+  </script>
+
+  <!-- Your EJS template -->
+  <script type="text/template" id="delivery-template">
+    <% placedOrders.forEach(order => { %>
+      <li class="list-group-item">
+        <strong>Email:</strong> <%= order.email %><br>
+        <strong>Product ID:</strong> <%= order.productId %><br>
+        <strong>Quantity:</strong> <%= order.quantity %><br>
+        <strong>Address:</strong> <%= order.address %><br>
+        <strong>Order Date:</strong> <%= new Date(order.orderDate).toDateString() %><br>
+        <strong>Order Time:</strong> <%= order.orderTime %><br>
+        <strong>Status:</strong> <%= order.status || 'Pending' %><br>
+        <!-- Add a button for each order -->
+        <button class="btn btn-success move-to-completed-button" data-order-id="<%= order._id %>">Move to Completed</button>
+        <button class="btn btn-primary confirm-pickup" data-order-id="<%= order._id %>">Move to Pickup</button>
+        <hr>
+      </li>
+    <% }); %>
+  </script>
+
+  <!-- Include Bootstrap JS and Popper.js CDN links if needed -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renewal</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for logo size */
+        .logo {
+            max-width: 400px; /* Adjust the size as needed */
+        }
+
+        /* Custom CSS for navigation link size and spacing */
+        /* Custom CSS for navigation link size and spacing */
+        .navbar-nav .nav-item .nav-link-custom {
+            font-size: 22px; /* Increase the font size as needed */
+            padding: 10px 30px; /* Adjust padding to increase spacing */
+        }
+
+        /* Custom CSS for highlighting active link */
+        .navbar-nav .nav-item.active .nav-link-custom {
+            background-color: green;
+            color: white;
+        }
+
+        .info-section {
+            padding: 50px;
+            background-color: #f9f9f9;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Custom CSS for the data fields */
+        .data-field {
+            font-size: 18px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+
+        /* Center text in columns */
+        .text-center {
+            text-align: center;
+        }
+
+        /* Center text in columns */
+        .text-padding {
+            padding-top: 50px;
+            text-align: center;
+        }
+
+        .navigation {
+            background-color: rgb(241, 254, 223);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light navigation">
+        <a class="navbar-brand" href="#"><img src="templates\views\img\logo.png" alt="Company Logo" class="logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="main.html" target="_self">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="admin.html" target="_self">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="contact_us.html" target="_self">Contact Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="login.html" target="_self">login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-custom" href="registration.html" target="_self">Register</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="info-section">
+        <div class="container">
+            <h1 class="text-center">Welcome to the Admin Panel</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Total Customers:</strong> <span id="totalCustomers">Loading...</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Total Vendors:</strong> <span id="totalVendors">Loading...</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Pending Orders:</strong> <span id="pendingOrders">ChatGPT</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="data-field">
+                        <strong>Completed Orders:</strong> <span id="completedOrders">Loading...</span>
+                    </div>
+                </div>
+                <!-- Add Amount input field and Update button inside a form -->
+                <!-- Add Amount input field and Update button inside a form -->
+
+
+                <!-- Add Category form in admin.html -->
+                <form action="/add-category" method="post">
+                    <label for="new-category">Add Category:</label>
+                    <input type="text" name="newCategory" required>
+                    <button type="submit">Add</button>
+                </form>
+
+        </div>
+    </section>
+
+    <!-- Add this script after your existing script in admin.html -->
+    <!-- Update this script after your existing script in admin.html -->
+    <script>
+        // Use fetch to get the admin data from the server
+        fetch("/admin")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("totalCustomers").textContent = data.totalCustomers;
+                document.getElementById("totalVendors").textContent = data.totalVendors;
+                document.getElementById("pendingOrders").textContent = data.pendingOrders;
+                document.getElementById("completedOrders").textContent = data.completedOrders;
+                document.getElementById("balanceRemaining").textContent = data.balanceRemaining || "Loading..."; // Update this line
+            })
+            .catch(error => console.error(error));
+
+        // Handle form submission and update the balance
+        function updateBalance() {
+            // Get the value entered in the "Add Amount" field
+            const addAmountValue = parseFloat(document.getElementById("add-amount").value) || 0; // Convert to a float, default to 0 if not a valid number
+
+            // Get the current balance from the "Balance Remaining" span
+            const currentBalance = parseFloat(document.getElementById("balanceRemaining").textContent) || 0;
+
+            // Calculate the new balance by adding the entered amount to the current balance
+            const newBalance = currentBalance + addAmountValue;
+
+            // Update the "Balance Remaining" span with the new balance
+            document.getElementById("balanceRemaining").textContent = newBalance.toFixed(2); // Display the new balance with two decimal places
+
+        }
+    </script>
+
+    <!-- Update this script after your existing script in admin.html -->
+    <script>
+        // Handle form submission and update the balance
+        async function updateBalance() {
+            // Get the value entered in the "Add Amount" field
+            const addAmountValue = parseFloat(document.getElementById("add-amount").value) || 0;
+
+            // Send a request to the server to update the balance
+            try {
+                const response = await fetch("/update-balance", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ addAmount: addAmountValue }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    // Update the "Balance Remaining" span with the new balance
+                    document.getElementById("balanceRemaining").textContent = data.newBalance.toFixed(2);
+                } else {
+                    console.error("Error updating balance:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error updating balance:", error.message);
+            }
+        }
+    </script>
+
+
+
+
+
+    <!-- Add Bootstrap JS and jQuery links at the end of the body -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

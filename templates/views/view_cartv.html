@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Cart</title>
+  <!-- Add Bootstrap CDN link for styles -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+
+  <h1 class="text-center mb-4">Your Cart</h1>
+
+  <div id="cart-content" class="mb-4"></div>
+  <div id="total-price"></div>
+
+  <form id="placeOrderForm" class="mb-4">
+    <input type="hidden" name="productId" value="<%= productv._id %>">
+    <button type="button" onclick="placeOrder()" class="btn btn-success">Place Order</button>
+  </form>
+
+  <script>
+    // Function to fetch cart data and update the view
+    function updateCartView() {
+      const cartContentElement = document.getElementById('cart-content');
+      const totalPriceElement = document.getElementById('total-price');
+
+      // Fetch cart data from the server
+      fetch('/view-cart')
+        .then(response => response.json())
+        .then(cart => {
+          if (cart.productvs.length === 0) {
+            cartContentElement.innerHTML = "<p class='alert alert-info'>Your cart is empty.</p>";
+            totalPriceElement.innerHTML = "";
+          } else {
+            const productList = cart.productvs.map(productv => {
+              const productDetails = productv.productDetails;
+              const productPrice = productDetails.price * productv.quantity;
+              return `<li class="list-group-item">Product ID: ${productv.productId}, Quantity: ${productv.quantity}, Brand: ${productDetails.productbrand}, Model: ${productDetails.productmodel}, Price: $${productPrice.toFixed(2)} <button onclick="removeFromCart('${productv.productId}')" class="btn btn-danger btn-sm float-right">Remove</button></li>`;
+            }).join('');
+
+            cartContentElement.innerHTML = `<ul class="list-group">${productList}</ul>`;
+            totalPriceElement.innerHTML = `<p class="mt-4">Total Price: $${cart.totalPrice.toFixed(2)}</p>`;
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching cart data:', error);
+        });
+    }
+
+    // Function to remove an item from the cart
+    function removeFromCart(productId) {
+      // Send a request to the server to remove the item
+      fetch(`/remove-from-cart/${productId}`, {
+        method: 'POST',
+      })
+      .then(response => response.json())
+      .then(cart => {
+        // Update the cart content after removal
+        updateCartView();
+      })
+      .catch(error => {
+        console.error('Error removing item from the cart:', error);
+      });
+    }
+
+    // Function to place the order
+    function placeOrder() {
+      // Send a request to the server to place the order
+      fetch('/place-order', {
+        method: 'POST',
+      })
+      .then(response => {
+        if (response.ok) {
+          // Order placed successfully, update the cart view
+          updateCartView();
+        } else {
+          console.error('Error placing order:', response.statusText);
+        }
+      })
+      .catch(error => {
+        console.error('Error placing order:', error);
+      });
+    }
+
+    // Initial load of the cart view
+    updateCartView();
+  </script>
+
+  
+
+  <!-- Add Bootstrap JS and Popper.js CDN links if needed -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!-- templates/views/cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add your head content here -->
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h1>Your Shopping Cart</h1>
+    <% if (cart && cart.products.length > 0) { %>
+        <ul>
+            <% cart.products.forEach(product => { %>
+                <li>
+                    <p>Product: <%= product.productbrand %></p>
+                    <p>Model: <%= product.productmodel %></p>
+                    <p>Price: $<%= product.price %></p>
+                    <p>Quantity: <%= product.quantity %></p> <!-- Add this line for quantity -->
+                    <!-- Add more details as needed -->
+                </li>
+            <% }); %>
+        </ul>
+        <p>Total Price: $<%= calculateTotalPrice(cart.products) %></p>
+    <% } else { %>
+        <p>Your cart is empty.</p>
+    <% } %>
+</body>
+</html>
